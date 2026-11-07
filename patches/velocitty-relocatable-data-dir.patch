@@ -1,0 +1,31 @@
+diff --git a/velocitty/config.py.in b/velocitty/config.py.in
+index aa100ab..114a8f1 100644
+--- a/velocitty/config.py.in
++++ b/velocitty/config.py.in
+@@ -1,2 +1,25 @@
++import os
++
+ VERSION = "@version@"
+-DATA_DIR = "@data_dir@"
++
++
++def _data_dir():
++    """Find the data directory, preferring the one next to the installation.
++
++    This module is installed in <prefix>/lib/pythonX.Y/site-packages/velocitty,
++    so walk up from here looking for share/velocitty.  That keeps the
++    application working when the install prefix is relocated, for example
++    inside an AppImage, and falls back to the compiled in directory.
++    """
++    directory = os.path.dirname(os.path.abspath(__file__))
++    while True:
++        candidate = os.path.join(directory, "share", "velocitty")
++        if os.path.isdir(candidate):
++            return candidate
++        parent = os.path.dirname(directory)
++        if parent == directory:
++            return "@data_dir@"
++        directory = parent
++
++
++DATA_DIR = _data_dir()

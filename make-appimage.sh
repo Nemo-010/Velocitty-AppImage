@@ -11,10 +11,6 @@ export ICON=/usr/share/icons/hicolor/scalable/apps/velocitty.svg
 export DEPLOY_PYTHON=1
 export APPNAME=Velocitty
 
-export PATH_MAPPING='
-	/usr/share/velocitty:${SHARUN_DIR}/share/velocitty
-'
-
 # Deploy dependencies
 quick-sharun \
   /usr/bin/velocitty \

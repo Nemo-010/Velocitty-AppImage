@@ -3,6 +3,7 @@
 set -eu
 
 ARCH=$(uname -m)
+PATCHES=${PWD}/patches
 
 echo "Installing package dependencies..."
 echo "---------------------------------------------------------------"
@@ -47,6 +48,12 @@ else
 fi
 
 echo "$VERSION" >~/version
+
+echo "Making velocitty relocatable..."
+echo "---------------------------------------------------------------"
+# the generated config.py has the install prefix hardcoded into it, patch it
+# to find its data relative to where the module is installed instead
+patch -p1 -d /tmp/velocitty < "$PATCHES"/velocitty-relocatable-data-dir.patch
 
 meson setup build \
   --prefix=/usr \
